@@ -2,14 +2,18 @@ from pathlib import Path
 
 from datetime import timedelta
 
+import os
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = '6=#iczb))rm%we%y=_47e7k1v@4x66^8o6+s7f*v=-qfzka#98'
+SECRET_KEY = os.getenv(key='SECRET_KEY',
+                       default='6=#iczb))rm%we%y=_47e7k1v@4x66^8o6+s7f*v=-qfzka#98')
 
-DEBUG = True
+DEBUG = os.getenv(key='DEBUG',
+                  default=True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv(key='ALLOWED_HOSTS', default='').split(',')
 
 
 INSTALLED_APPS = [
@@ -66,8 +70,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv(key='DB_NAME', default='postgres'),
+        'USER': os.getenv(key='DB_USER', default='postgres'),
+        'PASSWORD': os.getenv(key='DB_PASSWORD', default=''),
+        'HOST': os.getenv(key='DB_HOST', default='localhost'),
+        'PORT': os.getenv(key='DB_PORT', default='5432')
     }
 }
 
@@ -115,7 +123,6 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100,
-
 
 }
 
