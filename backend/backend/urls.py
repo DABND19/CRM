@@ -1,12 +1,14 @@
 from django.contrib import admin
 from django.urls import path, include
 
+from rest_framework.authtoken.views import obtain_auth_token
+
 from backend.schema import schema_view
 
 
 endpoints = [
-    # schema
     path('schema.json', schema_view),
+    path('auth/', obtain_auth_token),
 
     # apps API URLs
     path('core/', include('core.urls')),
